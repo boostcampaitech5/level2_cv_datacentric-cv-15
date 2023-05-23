@@ -40,7 +40,6 @@ def training(cfg):
         batch_size=cfg["batch_size"],
         shuffle=True,
         num_workers=cfg["num_workers"],
-        pin_memory=True,
     )
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -49,9 +48,7 @@ def training(cfg):
     optimizer = torch.optim.Adam(
         model.parameters(), lr=cfg["changeable"]["learning_rate"]
     )
-    scheduler = lr_scheduler.MultiStepLR(
-        optimizer, milestones=[cfg["changeable"]["epochs"] // 2], gamma=0.1
-    )
+    scheduler = lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.8)
 
     # 이미 있다면 실수로 지워지는 것을 방지하기 위해 error가 뜸
     save_path = osp.join(cfg["save_dir"], cfg["changeable"]["exp_name"])
@@ -70,6 +67,8 @@ def training(cfg):
     )
 
     model.train()
+    patience = 0
+    savedLoss = 0
     for epoch in range(cfg["changeable"]["epochs"]):
         epoch_loss, epoch_start = 0, time.time()
         with tqdm(total=num_batches) as pbar:
@@ -99,7 +98,7 @@ def training(cfg):
         wandb.log(
             {
                 "Mean loss": epoch_loss / num_batches,
-                "Learning Rate": scheduler.get_last_lr(),
+                "Learning Rate": scheduler.get_last_lr()[0],
             }
         )
         print(
@@ -108,9 +107,20 @@ def training(cfg):
             )
         )
 
-        if (epoch + 1) % cfg["save_interval"] == 0:
-            ckpt_fpath = osp.join(save_path, "latest.pth")
-            torch.save(model.state_dict(), ckpt_fpath)
+        # early stop, model 저장
+        if epoch == 0:
+            savedLoss = epoch_loss / num_batches
+        else:
+            if savedLoss < epoch_loss / num_batches:
+                patience += 1
+            else:
+                patience = 0
+                ckpt_fpath = osp.join(save_path, "latest.pth")
+                torch.save(model.state_dict(), ckpt_fpath)
+                print("new model saved!!!")
+        if patience >= 10:
+            break
+        savedLoss = epoch_loss / num_batches
 
     wandb.finish()
 
