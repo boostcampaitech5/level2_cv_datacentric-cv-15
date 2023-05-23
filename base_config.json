@@ -1,0 +1,25 @@
+{
+    "data_dir": "../data/medical",
+    "save_dir": "./results",
+    "batch_size": 8,
+    "valid_batch_size": 8,
+    "num_workers": 4,
+    "device": "cuda",
+    "save_interval": 5,
+    "ignore_tags": [
+        "masked",
+        "excluded-region",
+        "maintable",
+        "stamp"
+    ],
+    "changeable": {
+        "seed": 2023,
+        "epochs": 2,
+        "image_size": 2048,
+        "crop_size": 1024,
+        "optimizer": "Adam",
+        "learning_rate": 0.001,
+        "exp_name": "exp",
+        "early_stop": 10
+    }
+}

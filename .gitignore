@@ -109,3 +109,9 @@ poetry.lock
 
 # test code
 test.py
+
+# our code & folders
+base_code
+config_queue
+pths
+results
