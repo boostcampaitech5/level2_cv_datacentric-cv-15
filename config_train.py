@@ -10,6 +10,7 @@ from torch.optim import lr_scheduler
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
+import wandb
 from base_code.dataset import SceneTextDataset
 from base_code.east_dataset import EASTDataset
 from base_code.model import EAST
@@ -39,6 +40,7 @@ def training(cfg):
         batch_size=cfg["batch_size"],
         shuffle=True,
         num_workers=cfg["num_workers"],
+        pin_memory=True,
     )
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -56,6 +58,16 @@ def training(cfg):
     os.makedirs(save_path)
     with open(save_path + "/config.json", "w") as file:
         json.dump(cfg, file, indent=4)
+
+    # wandb 설정
+
+    wandb.init(
+        entity="hype-squad",
+        project="Data_Centric",
+        name=cfg["changeable"]["exp_name"],
+        config=cfg,
+        reinit=True,
+    )
 
     model.train()
     for epoch in range(cfg["changeable"]["epochs"]):
@@ -81,9 +93,15 @@ def training(cfg):
                     "IoU loss": extra_info["iou_loss"],
                 }
                 pbar.set_postfix(val_dict)
+                wandb.log(val_dict)
 
         scheduler.step()
-
+        wandb.log(
+            {
+                "Mean loss": epoch_loss / num_batches,
+                "Learning Rate": scheduler.get_last_lr(),
+            }
+        )
         print(
             "Mean loss: {:.4f} | Elapsed time: {}".format(
                 epoch_loss / num_batches, timedelta(seconds=time.time() - epoch_start)
@@ -93,6 +111,8 @@ def training(cfg):
         if (epoch + 1) % cfg["save_interval"] == 0:
             ckpt_fpath = osp.join(save_path, "latest.pth")
             torch.save(model.state_dict(), ckpt_fpath)
+
+    wandb.finish()
 
 
 if __name__ == "__main__":
