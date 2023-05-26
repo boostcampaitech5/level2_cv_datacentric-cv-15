@@ -3,6 +3,7 @@ import math
 import os
 import os.path as osp
 import time
+import random
 from datetime import timedelta
 
 import torch
@@ -11,9 +12,20 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 import wandb
+import numpy as np
 from base_code.dataset import SceneTextDataset
 from base_code.east_dataset import EASTDataset
 from base_code.model import EAST
+
+
+def seed_everything(seed: int = 42):
+    random.seed(seed)
+    np.random.seed(seed)
+    os.environ["PYTHONHASHSEED"] = str(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)  # type: ignore
+    torch.backends.cudnn.deterministic = True  # type: ignore
+    torch.backends.cudnn.benchmark = True  # type: ignore
 
 
 def get_config():
@@ -190,4 +202,5 @@ def training(cfg, validation=True):
 
 if __name__ == "__main__":
     cfg = get_config()
+    seed_everything(cfg["changeable"]["seed"])
     training(cfg)
