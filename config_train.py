@@ -25,10 +25,53 @@ def get_config():
     return jsonDict
 
 
-def training(cfg):
+def training(cfg, validation=True):
+    def validating(cfg):
+        model.eval()
+
+        total_loss = 0
+        epoch_start = time.time()
+        with tqdm(total=val_num_batches) as pbar:
+            for img, gt_score_map, gt_geo_map, roi_mask in val_loader:
+                pbar.set_description("[Validation Epoch {}]".format(epoch + 1))
+
+                with torch.no_grad():
+                    loss, extra_info = model.train_step(
+                        img, gt_score_map, gt_geo_map, roi_mask
+                    )
+
+                total_loss += loss.item()
+
+                pbar.update(1)
+                val_dict = {
+                    "Cls loss": extra_info["cls_loss"],
+                    "Angle loss": extra_info["angle_loss"],
+                    "IoU loss": extra_info["iou_loss"],
+                }
+                pbar.set_postfix(val_dict)
+                wandb.log(val_dict)
+        wandb.log(
+            {
+                "Mean loss": epoch_loss / num_batches,
+            }
+        )
+        print(
+            "Validation Mean loss: {:.4f} | Elapsed time: {}".format(
+                total_loss / val_num_batches,
+                timedelta(seconds=time.time() - epoch_start),
+            )
+        )
+
+        return (
+            total_loss / val_num_batches,
+            extra_info["cls_loss"],
+            extra_info["angle_loss"],
+            extra_info["iou_loss"],
+        )
+
     dataset = SceneTextDataset(
         cfg["data_dir"],
-        split="train",
+        split="train1",
         image_size=cfg["changeable"]["image_size"],
         crop_size=cfg["changeable"]["crop_size"],
         ignore_tags=cfg["ignore_tags"],
@@ -42,13 +85,30 @@ def training(cfg):
         num_workers=cfg["num_workers"],
     )
 
+    if validation:
+        val_dataset = SceneTextDataset(
+            cfg["data_dir"],
+            split="val1",
+            image_size=cfg["changeable"]["image_size"],
+            crop_size=cfg["changeable"]["crop_size"],
+            ignore_tags=cfg["ignore_tags"],
+        )
+        val_dataset = EASTDataset(val_dataset)
+        val_num_batches = math.ceil(len(val_dataset) / cfg["valid_batch_size"])
+        val_loader = DataLoader(
+            val_dataset,
+            batch_size=cfg["valid_batch_size"],
+            shuffle=False,
+            num_workers=cfg["num_workers"],
+        )
+
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = EAST()
     model.to(device)
     optimizer = torch.optim.Adam(
         model.parameters(), lr=cfg["changeable"]["learning_rate"]
     )
-    scheduler = lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.8)
+    scheduler = lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.8)
 
     # 이미 있다면 실수로 지워지는 것을 방지하기 위해 error가 뜸
     save_path = osp.join(cfg["save_dir"], cfg["changeable"]["exp_name"])
@@ -106,6 +166,9 @@ def training(cfg):
                 epoch_loss / num_batches, timedelta(seconds=time.time() - epoch_start)
             )
         )
+
+        if validation:
+            val_mean_loss, val_cls_loss, val_angle_loss, val_iou_loss = validating(cfg)
 
         # early stop, model 저장
         if epoch == 0:
