@@ -52,7 +52,7 @@ def training(cfg, validation=True):
                 wandb.log(val_dict)
         wandb.log(
             {
-                "Mean loss": epoch_loss / num_batches,
+                "Mean loss": total_loss / val_num_batches,
             }
         )
         print(
