@@ -65,11 +65,11 @@
 
 - public : 14등
 
-<img width="1112" alt="private score" src="https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/2c6eefe3-4e26-4715-8723-4c1fd9b6db7e">
+<img width="1101" alt="public score" src="https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/36df19ae-aa2a-4278-af8c-6f69baf44157">
 
 - private : 7등
 
-<img width="1101" alt="public score" src="https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/46bc3881-f0e9-4317-b378-a5c2827d1387">
+<img width="1112" alt="private score" src="https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/751164e4-74d1-46c5-af9c-73895ad2fa78">
 
 ## 🍀 Folder Structure
 
