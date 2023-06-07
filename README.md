@@ -1,6 +1,6 @@
-![hypesquad](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/729c72fc-7159-4f92-b42c-5b9beaee8b7d)
+![Untitled](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/7933a33c-c83a-4fc0-8049-f17744917e29)
 ## 📸 병원 진료비 영수증 OCR Task
-![ocr](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/c35033e6-46e2-4dd7-9cc6-728405984f8c)
+![ocr](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/8dce5d17-64e1-48ae-997c-c915891b5d83)
 스마트폰으로 카드를 결제하거나, 카메라로 카드를 인식할 경우 자동으로 카드 번호가 입력되는 경우가 있습니다. 또 주차장에 들어가면 차량 번호가 자동으로 인식되는 경우도 흔히 있습니다. 이처럼 OCR (Optimal Character Recognition) 기술은 사람이 직접 쓰거나 이미지 속에 있는 문자를 얻은 다음 이를 컴퓨터가 인식할 수 있도록 하는 기술로, 컴퓨터 비전 분야에서 현재 널리 쓰이는 대표적인 기술 중 하나입니다.
 
 ### **📆** 대회 일정 : 2023.05.24 ~ 2023.06.01
@@ -17,7 +17,7 @@
 ## 👨🏻‍💻 👩🏻‍💻 팀 구성
 
 -------------
-|![logo1](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/25c7087d-ed59-474b-b1fe-2adba3689faa)|![logo2](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/1086d3c7-a79c-4f43-a883-bdc31b68863d)|![logo3](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/1699dc25-c208-4509-b0a5-50d4f3b04326)|![logo4](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/0c5306da-f5ea-4b8c-996a-092d74ae0836)|![logo5](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/9dd39e5f-ebf7-4a6f-a478-e87e6dcef317)|
+|![logo1](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/4d28124d-57d8-42f0-a21e-23aa89e5d65d)|![logo2](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/dacec3d2-6e10-4066-924b-bb01f2729d37)|![logo3](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/f80da2a3-0509-4303-969d-71e6a3d1ee90)|![logo4](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/c9aec6cd-d9ce-429e-b554-ede08d7c8836)|![logo5](https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/5f12c43f-0b6b-4f11-873e-1b81574d1354)|
 | :---: | :---: | :---: | :---: |  :---: |
 | [김용우](https://github.com/yongwookim1) | [박종서](https://github.com/justinpark820) | [서영덕](https://github.com/SeoYoungDeok) |[신현준](https://github.com/june95) |[조수혜](https://github.com/suhyehye) |
 
@@ -65,11 +65,11 @@
 
 - public : 14등
 
-<img width="1101" alt="public score" src="https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/36df19ae-aa2a-4278-af8c-6f69baf44157">
+<img width="1101" alt="public score" src="https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/8381a215-8679-4806-91be-49c1eb25ba1a">
 
 - private : 7등
 
-<img width="1112" alt="private score" src="https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/751164e4-74d1-46c5-af9c-73895ad2fa78">
+<img width="1112" alt="private score" src="https://github.com/boostcampaitech5/level2_cv_datacentric-cv-15/assets/113939970/ef7101f2-a167-46ec-a661-203424b15e8d">
 
 ## 🍀 Folder Structure
 
